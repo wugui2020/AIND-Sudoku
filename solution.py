@@ -40,9 +40,11 @@ def naked_twins(values):
     Returns:
         the values dictionary with the naked twins eliminated from peers.
     """
+    # do naked twins in all units instead of just squares
     for unit in unitlist:
         for box_a in unit:
             for box_b in unit:
+                # naked_twins condition
                 if box_a != box_b and values[box_a] == values[box_b] and len(values[box_a]) == 2:
                     for box in set(unit) - set([box_a, box_b]):
                         for c in values[box_a]:
