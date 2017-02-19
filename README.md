@@ -3,7 +3,7 @@
 
 # Question 1 (Naked Twins)
 Q: How do we use constraint propagation to solve the naked twins problem?  
-A: When checking within categories, add one more check when doing elimination.
+A: When checking within categories, add one more check, which is enforcing no other peer has the numbers processed by the twin, when doing elimination.
 
 # Question 2 (Diagonal Sudoku)
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
