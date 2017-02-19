@@ -2,6 +2,20 @@ rows = 'ABCDEFGHI'
 cols = '123456789'
 
 assignments = []
+boxes = cross(rows, cols)
+
+row_units = [cross(r, cols) for r in rows]
+column_units = [cross(rows, c) for c in cols]
+square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
+diagonal_unit_a = [rows[i] + cols[i] for i in range(len(rows))]
+diagonal_unit_b = [rows[i] + cols[len(col)-i] for i in range(len(rows))]
+diagonal_units = {0: diagonal_unit_a, len(rows) - 1: diagonal_unit_b}
+unitlist = row_units + column_units + square_units
+units = dict((s, [u for u in unitlist if s in u] + 
+                  diagonal_units.get(rows.index(s[0]) + col.index(s[1]), []) +
+                  diagonal_units.get(rows.index(s[0]) - col.index(s[1]), []))
+              for s in boxes)
+peers = dict((s, set(sum(units[s],[]))-set([s])) for s in boxes)
 
 def assign_value(values, box, value):
     """
@@ -21,21 +35,13 @@ def naked_twins(values):
     Returns:
         the values dictionary with the naked twins eliminated from peers.
     """
-    
+    pass
+        
     
 
 def cross(A, B):
     "Cross product of elements in A and elements in B."
     return [s+t for s in a for t in b]
-
-boxes = cross(rows, cols)
-
-row_units = [cross(r, cols) for r in rows]
-column_units = [cross(rows, c) for c in cols]
-square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
-unitlist = row_units + column_units + square_units
-units = dict((s, [u for u in unitlist if s in u]) for s in boxes)
-peers = dict((s, set(sum(units[s],[]))-set([s])) for s in boxes)
 
 def grid_values(grid):
     """
@@ -81,10 +87,10 @@ def eliminate(values):
 
 def only_choice(values):
     for unit in unitlist:
-    for digit in '123456789':
-        dplaces = [box for box in unit if digit in values[box]]
-        if len(dplaces) == 1:
-            values[dplaces[0]] = digit
+        for digit in '123456789':
+            dplaces = [box for box in unit if digit in values[box]]
+            if len(dplaces) == 1:
+                values[dplaces[0]] = digit
     return values
 
 def reduce_puzzle(values):
