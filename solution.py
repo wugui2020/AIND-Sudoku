@@ -48,8 +48,9 @@ def naked_twins(values):
                 # naked_twins condition
                 if box_a != box_b and values[box_a] == values[box_b] and len(values[box_a]) == 2:
                     # elimiate twins
-                    for c in values[box_a]:
-                        assign_value(values, box, values[box].replace(c, ''))
+                    for box in set(unit) - set([box_a, box_b]):
+                        for c in values[box_a]:
+                            assign_value(values, box, values[box].replace(c, ''))
     return values
 
 
