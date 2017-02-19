@@ -3,11 +3,11 @@
 
 # Question 1 (Naked Twins)
 Q: How do we use constraint propagation to solve the naked twins problem?  
-A: When checking within categories, add one more check, which is enforcing no other peer has the numbers processed by the twin, when doing elimination.
+A: When there are two of the boxes which have the same two possible numbers, they are considered as twins. That means the rest of the peers within the same unit are guaranteed to not contain these two numbers. When checking within categories, add one more check, which is enforcing no other peer has the numbers processed by the twin, when doing elimination.
 
 # Question 2 (Diagonal Sudoku)
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
-A: Add the diagnal to the constraints, along with square, row and column.
+A: Diagnal Sudoku is the basically the same as the traditional Sudoku except for the additional contraint on both diagonal unit sets. That means when we consider the peers of any given boxes on the diagonal lines, the diagonal peers will be also added into the collection. Add the diagnal to the constraints, along with square, row and column.
 
 ### Install
 
