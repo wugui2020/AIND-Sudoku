@@ -41,14 +41,20 @@ def naked_twins(values):
         the values dictionary with the naked twins eliminated from peers.
     """
     # do naked twins in all units instead of just squares
-    for unit in unitlist:
+    def get_twins(unit):
         for box_a in unit:
             for box_b in unit:
                 # naked_twins condition
                 if box_a != box_b and values[box_a] == values[box_b] and len(values[box_a]) == 2:
-                    for box in set(unit) - set([box_a, box_b]):
-                        for c in values[box_a]:
-                            assign_value(values, box, values[box].replace(c, ''))
+                    return a, b
+        return None, None
+    for unit in unitlist:
+        box_a, box_b = get_twins(unit)
+        while box_a:
+            for box in set(unit) - set([box_a, box_b]):
+                for c in values[box_a]:
+                    assign_value(values, box, values[box].replace(c, ''))
+            box_a, box_b = get_twins(unit)
     return values
 
 
@@ -87,6 +93,9 @@ def display(values):
     print
 
 def eliminate(values):
+    """
+    eliminate the possible numbers within the units using solved values
+    """
     solved_values = [box for box in values.keys() if len(values[box]) == 1]
     for box in solved_values:
         digit = values[box]
@@ -95,6 +104,10 @@ def eliminate(values):
     return values
 
 def only_choice(values):
+    """
+    the box which is the only one which contains the given number within the scope of the 
+    unit should be assigned to that number.
+    """
     for unit in unitlist:
         for digit in '123456789':
             dplaces = [box for box in unit if digit in values[box]]
@@ -108,6 +121,7 @@ def reduce_puzzle(values):
         solved_values_before = len([box for box in values.keys() if len(values[box]) == 1])
         values = eliminate(values)
         values = only_choice(values)
+        values = naked_twins(values)
         solved_values_after = len([box for box in values.keys() if len(values[box]) == 1])
         stalled = solved_values_before == solved_values_after
         if len([box for box in values.keys() if len(values[box]) == 0]):
